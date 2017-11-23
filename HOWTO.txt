@@ -1,0 +1,118 @@
+------------------------------------------------------------------------
+Hi all!!
+
+You are reading the howto of a module which implements
+digital real-time FIR filters in Python. A demo is also provided to show the 
+operation of the module in a simulated real-time filtering of a ECG.
+
+-------------------------------------------------------------------------
+
+The steps for using the library are the followings:
+
+	1)Download the folder.
+	2)Include the files 'FIR.py' and '_FIR.so' in the directory of working or in the 
+	  directory of the libraries of your OS (for Linux: /usr/local/include/python).
+	3)Open a .py file and import the libray: import FIR
+	4)Enjoy the library.
+
+For running the demo:
+	
+	1)All the files of the demo are in the folder 'DEMO'.
+	2.1)Use your PYTHON developing environment to open the demo: 'DEMO.py'.
+	2.2)OR use the terminal for opnening the terminal of PYTHON: $ python
+
+	3)The input file is 'ecg.dat' and the output file is 'ecg_filtered.dat'.
+	4)Run the demo, obtaining the following files:
+
+		*   'ecg.pdf', the recorded ECG plotted in the time domain
+		*   'single_heartbeat.pdf', a zoomed heartbeat of the recorded ECG
+		*   'ecg_filtered.pdf', the filtered ECG plotted in the time domain
+		*   'single_heartbeat_filtered.pdf', a zoomed filtered heartbeat to better see the
+					             result of the filtering process
+
+	PD: 'FIR.py' and '_FIR.so' are the files needed to import the library.
+	    A'FIR.pyc' is going to be generated automatically when the demo were run.
+	
+-----------------------------------------------------------------------------
+
+The FIR library described in this document consists in a FIR class which, by 
+providing the number of coefficients, the cut-off frequency/ies, and the type
+of the filter, does the real time filtering of a digital singal. These are the
+type of filter available.
+	
+	*Low pass
+	*High pass
+	*Stop band
+	*Pass band
+
+The FIR filter works as a real-time system, so that it only recieves one single 
+scalar value as input (double) and return a single scalar value as output (double).
+The steps for using the class are the followings:
+
+	1)Generate an instance of the class FIR:
+			
+			FIR.filter()
+
+	2)Select the type of filter you want to use:
+
+			*Low pass  -----> filter.lowpass(int M, double f);//The argument is the number of taps and the cut-off frequency
+			*High pass -----> filter.highpass(int M,double f);//The argument is the number of taps and the cut-off frequency
+			*Stop band -----> filter.stopband(int M,double f1,double f2);//The argument is the number of taps and the cut-off 											     //frequencies
+			*Pass band -----> filter.passband(int M,double f1,double f2);//The argument is the number of taps and the cut-off 											     //frequencies
+
+	  These methods generate the coefficients of the filter, so that the user has access to their 
+	  values by the method 'filter.getCoeff(int i);', which returns a double (the coefficient of position i).
+	  
+	  IMPORTANT!!: the cut-off frequencies must be normalized to Nyquist,e.i., they must be 
+		       between 0 and 0.5
+
+	3)Filter the input real value:
+
+			filter.filter(double input);//Returns a real value as output (double)
+
+	4)And that is all!!!
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+The methods available for the user are (compendium):
+
+	int    getTaps();		  	   //Gets the number of taps of the filter
+	double getCoeff(int i);	          	   //Gets the coefficient of index i
+	char   getType();		  	   //Gets the type of the filter
+	double getFreq(int i);		  	   //Gets the cut-off frequency i: if the filter is first order, i=0
+	double getBuffer(int i);	  	   //Gets the buffered value of index i
+	void   setTaps(int M);           	   //Sets the number of taps of the filter
+	void   setCoeff(double x, int i); 	   //Sets the coefficient of the position i with the value x
+	void   setType(char a);		  	   //Sets the type of the filter
+	void   setFreq(double x, int i);  	   //Sets the cut-off frequency of index i: if the filter is first order, i=0
+	void   setBuffer(double x, int i);	   //Sets the value of index i of the buffer to x
+	void   lowpass(int M,double f);	  	   //Generates the coefficients of a low pass filter with cut-off frequency f
+	void   highpass(int M,double f);           //Generates the coefficients of a high pass filter with cut-off frequency f
+	void   stopband(int M,double f1,double f2);//Generates the coefficients of a stop band filter with cut-off frequencies f1 and f2
+	void   passband(int M,double f1,double f2);//Generates the coefficients of a pass band filter with cut-off frequencies f1 and f2
+	double filter(double x);	  	   //Filters the scalar input x by using the coefficients of the filter and returns a scalar 							     output
+	   					   //If no coefficient generator method is applied, the coefficients are all zero.
+
+------------------------------------------------------------------------------------------------------------------
+
+
+The folder BASE contains the base files for the creation of the PYTHON library. In that sense, the library is firstly implemented
+in C++ and then, using SWIG, the library is wrapped and converted into a PYTHON library, obtaining the two files described above:
+'FIR.py' and '_FIR.so'. The files of this folder are the followings:
+
+	*'FIR.cpp': implements the methods of the class FIR.
+	*'FIR.h': header file describing the class with its atributes, constructor and methods.
+	*'FIR.i': interface file required to use SWIG.
+	*'STEPS.txt': describes the steps to follow in order to use SWIG in LINUX, converting the
+		      C++ library in a PYTHON library. After applying these steps, 'FIR.py' and '_FIR.so'
+		      are achieved.
+
+------------------------------------------------------------------------------------------------------------------------
+
+HAVE A NICE DAY!
+
+Eduardo
+
+
+			
