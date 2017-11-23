@@ -1,0 +1,110 @@
+DOCUMENTATION OF FIR.py
+-----------------------------------------------------------------
+AUTHOR: Eduardo Sebastián
+
+DATE:19/11/2017
+
+LICENCE: NON
+
+NAME OF THE CLASS: FIR
+
+DESCRIPTION: FIR implements real time FIR filters. The user must
+	     select the number of coefficients of the structure, 
+	     the type of the filter and the normalized cut-off 
+	     frequency/ies. After that, the class, by its methods, 
+	     filters the real time input (a single scalar value) 
+             and returns a real value as an output.
+	     Types of the filter:
+
+		*LOWPASS
+		*HIGHPASS
+		*STOPBAND
+		*PASSBAND
+
+ATRIBUTES:  *  Taps: integer, represents the number of coefficients of the filter.
+	    *  Coeff: vector of doubles, represents the coefficients of the filter.
+	    *  Type: character, represents the type of the filter:'l' or 'L'= lowpass
+		                  		                  'h' or 'H'= highpass
+		      		  		                  's' or 'S'= stopband
+	              		  			          'p' or 'P'= passband	
+	    *  Buff: vector of doubles, represents the delays of a FIR filter.
+	    *  Freq: vector of doubles, represents the cut-off frequencies of the filter.
+
+CONSTRUCTOR: *FIR(): default constructor, sets the values of the atributes to the default ones.
+
+METHODS:
+
+	int    getTaps();			   Returns the number of taps of the filter
+
+	double getCoeff(int i);	       		   Returns the value of the coefficient of index i
+						   i can not be negative and must be under the number of taps
+
+	char   getType();			   Returns the type of the filter
+
+	double getFreq(int i);		 	   Returns the cut-off frequency of index i
+						   if the filter is high or low pass, i=0 always
+						   i can not be negative
+						   if the filter is stop or pass band, i=0 (first freq) or i=1 (second freq)
+ 
+	double getBuffer(int i);	  	   Returns the buffered value of index i
+					           i can not be negative and must be under the number of taps
+	
+	void   setTaps(int M);            	   Sets the number of taps of the filter, nothing is returned
+					           M must be over 0
+						   Nothing is returned
+
+	void   setCoeff(double x, int i); 	   Sets the coefficient of the position i with the value x, nothing is returned
+					 	   i must be over 0 and under the number of taps
+						   Nothing is returned				  
+	
+	void   setType(char a);		  	   Sets the type of the filter, nothing is returned
+					           a must be one of the description characters:'l' or 'L'= lowpass
+		                  		               			               'h' or 'H'= highpass
+		      		  		               			               's' or 'S'= stopband
+	              		  			       			               'p' or 'P'= passband
+						   Nothing is returned
+
+	void   setFreq(double x, int i);	   Sets the cut-off frequency of index i:
+						   If the filter is high or low pass, i=0 always
+						   i can not be negative
+					  	   If the filter is stop or pass band, i=0 (first freq) or i=1 (second freq)
+						   x must be between 0.0 and 0.5 (normalized frequencies)
+						   Nothing is returned
+
+	void   setBuffer(double x, int i);         Sets the value of index i of the buffer to x
+						   i can not be negative and must be under the number of taps
+						   Nothing is returned
+
+	void   lowpass(int M,double f1);	   Generates the coefficients of a low pass filter with cut-off frequency f
+					  	   f must be between 0.0 and 0.5 (normalized frequencies)
+					 	   Lowpass so that the length of freq is established in 1 and freq(0)=f
+					  	   Type is established as 'l'
+						   The number of taps must be over 0
+						   Nothing is returned
+	
+	void   highpass(int M,double f);           Generates the coefficients of a high pass filter with cut-off frequency f
+					  	   f must be between 0.0 and 0.5 (normalized frequencies)
+					  	   Highpass so that the length of freq is established in 1 and freq(0)=f
+					  	   Type is established as 'h'
+						   The number of taps must be over 0
+					 	   Nothing is returned
+
+	void   stopband(int M,double f1,double f2);Generates the coefficients of a stop band filter with cut-off frequencies f1 and f2
+					 	   f(0) and f(1) must be between 0.0 and 0.5 (normalized frequencies)
+					  	   Stopband so the length of freq is established in 2: freq(0)=f1 and freq(1)=f2 
+						   Type is established as 's'
+						   The number of taps must be over 0
+					  	   Nothing is returned
+
+	void   passband(int M,double f1,double f2);Generates the coefficients of a pass band filter with cut-off frequencies f
+					 	   f(0) and f(1) must be between 0.0 and 0.5 (normalized frequencies)
+					  	   Stopband so the length of freq is established in 2: freq(0)=f1 and freq(1)=f2 
+						   Type is established as 's'
+						   The number of taps must be over 0
+					  	   Nothing is returned
+
+	double filter(double x);	  	   Filters a scalar input x by using the coefficients of the filter and returns a scalar  	
+					           If no coefficient generator method is applied, the coefficients are all zero
+					           In the process stores the new input in buff
+
+	
