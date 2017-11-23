@@ -5,7 +5,7 @@ This repository contains a Python library which implements real time FIR filters
 Elements of the repository:
 
     'FIR.py': first part of the PYTHON library, implements real time FIR filters
-    '_FIR.so': second part of the PYTHON library, implements real time FIR filters
+    '_FIR.so': second part of the PYTHON library, shared library function
     'HOWTO.txt': document with the instructions of how to use the library, the demo and general info
     'DOCUMENTATION.txt': compendium of the atributes, constructor and methods of the class FIR contained in the library
     'BASE': folder which contains the original C++ files and the interface for SWIG to convert the library into PYTHON
