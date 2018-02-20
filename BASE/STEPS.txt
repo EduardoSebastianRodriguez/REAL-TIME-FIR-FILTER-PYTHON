@@ -1,6 +1,0 @@
-swig -python -c++ FIR.i
-
-g++ -fPIC -c FIR.cpp FIR_wrap.cxx -I/usr/include/python2.7
-
-g++ -shared FIR.o FIR_wrap.o -o _FIR.so
-
