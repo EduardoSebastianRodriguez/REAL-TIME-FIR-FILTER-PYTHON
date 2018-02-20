@@ -22,6 +22,6 @@ The module implements real time FIR filters, which are one of the most widesprea
 
 Descriptions of the behaviour, structure and demo are provided in 'HOWTO.txt' and 'DOCUMENTATION.txt'
 
-Have a nice day!
+Have a nice day!!
 
 Eduardo
